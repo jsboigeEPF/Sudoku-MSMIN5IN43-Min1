@@ -1,3 +1,4 @@
+using System.Runtime.Versioning;
 using Python.Runtime;
 using Sudoku.Shared;
 
@@ -10,60 +11,31 @@ namespace Solver.PythonSolverAimaCSP
             using (PyModule scope = Py.CreateScope())
             {
                 // Injectez le script Python pour le solveur CSP avec AIMA
-                string pythonCode = @"
-import numpy as np
-from constraint import Problem
-
-def sudoku_csp_solver(grid):
-    problem = Problem()
-
-    # Ajoutez les variables (81 cases) avec les domaines possibles (1-9)
-    for row in range(9):
-        for col in range(9):
-            if grid[row][col] == 0:
-                problem.addVariable((row, col), range(1, 10))
-            else:
-                problem.addVariable((row, col), [grid[row][col]])
-
-    # Contraintes pour les lignes
-    for row in range(9):
-        problem.addConstraint(lambda *args: len(set(args)) == 9, [(row, col) for col in range(9)])
-
-    # Contraintes pour les colonnes
-    for col in range(9):
-        problem.addConstraint(lambda *args: len(set(args)) == 9, [(row, col) for row in range(9)])
-
-    # Contraintes pour les sous-grilles 3x3
-    for block_row in range(3):
-        for block_col in range(3):
-            cells = [(block_row * 3 + i, block_col * 3 + j) for i in range(3) for j in range(3)]
-            problem.addConstraint(lambda *args: len(set(args)) == 9, cells)
-
-    # Résoudre le CSP
-    solution = problem.getSolution()
-
-    # Reconstruire la grille
-    solved_grid = np.zeros((9, 9), dtype=int)
-    for (row, col), value in solution.items():
-        solved_grid[row][col] = value
-
-    return solved_grid
-";
-                scope.Exec(pythonCode);
-
+                Console.WriteLine("Before String");
+                string pythonCode =Resources.CSPAima_py;
+                Console.WriteLine(pythonCode);
+                //Injectez le script en conversion
                 // Convertissez la grille Sudoku en tableau NumPy
                 AddNumpyConverterScript(scope);
+                Console.WriteLine("After AddNumpyConverter");
                 var pyCells = AsNumpyArray(s.Cells, scope);
-
                 // Injectez la grille dans le scope Python
-                scope.Set("grid", pyCells);
-
-                // Appelez le solveur Python
-                scope.Exec("result = sudoku_csp_solver(grid)");
-
-                // Récupérez le résultat en NumPy et reconvertissez-le en tableau .NET
+                Console.WriteLine("After AsNumpyArray");
+                scope.Set("instance", pyCells);
+                Console.WriteLine("After scopeSet");
+                scope.Exec(pythonCode);
+                Console.WriteLine("After scopExec");
+                
+                // Récupérez le résultat et le temps d'exécution
                 PyObject pyResult = scope.Get("result");
+                PyObject pyExecutionTime = scope.Get("execution_time");
+
+                // Convertissez la grille résolue et le temps d'exécution
                 int[,] managedResult = AsManagedArray(scope, pyResult);
+                double executionTime = pyExecutionTime.As<double>();
+
+                // Affichez le temps d'exécution dans la console (optionnel)
+                Console.WriteLine($"Temps d'exécution : {executionTime * 1000} ms");
 
                 // Retournez le Sudoku résolu
                 return new SudokuGrid() { Cells = managedResult };
@@ -73,7 +45,9 @@ def sudoku_csp_solver(grid):
         protected override void InitializePythonComponents()
         {
             // Installez les modules nécessaires
+            Console.WriteLine("install numpy");
             InstallPipModule("numpy");
+            Console.WriteLine("install python constraint");
             InstallPipModule("python-constraint");
             base.InitializePythonComponents();
         }
