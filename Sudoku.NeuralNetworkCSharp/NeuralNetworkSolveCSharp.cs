@@ -93,7 +93,6 @@ namespace NeuralNetworkSolverCSharp
         //    PythonEngine.Initialize();
         //}
     }
-}
 	public class NeuralNetHelper
 	{
 
