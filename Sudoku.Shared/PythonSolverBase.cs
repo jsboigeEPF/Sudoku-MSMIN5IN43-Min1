@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
@@ -135,17 +136,25 @@ namespace Sudoku.Shared
             //    DownloadUrl = @"https://www.python.org/ftp/python/3.7.3/python-3.7.3-embed-amd64.zip",
             //};
 
-            //Runtime.PythonDLL = "python38.dll";
-            //Python.Deployment.Installer.Source = new Installer.DownloadInstallationSource()
-            //{
-            //    DownloadUrl = @"https://www.python.org/ftp/python/3.8.9/python-3.8.9-embed-amd64.zip",
-            //};
-
-            Runtime.PythonDLL = "python39.dll";
+            Runtime.PythonDLL = "python38.dll";
             Python.Deployment.Installer.Source = new Installer.DownloadInstallationSource()
             {
-                DownloadUrl = @"https://www.python.org/ftp/python/3.9.9/python-3.9.9-embed-amd64.zip",
+                DownloadUrl = @"https://www.python.org/ftp/python/3.8.9/python-3.8.9-embed-amd64.zip",
             };
+
+
+            //Runtime.PythonDLL = "python39.dll";
+            //Python.Deployment.Installer.Source = new Installer.DownloadInstallationSource()
+            //{
+            //    DownloadUrl = @"https://www.python.org/ftp/python/3.9.9/python-3.9.9-embed-amd64.zip",
+            //};
+
+            //Runtime.PythonDLL = "python37.dll";
+            // set the download source
+            //Python.Deployment.Installer.Source = new Installer.DownloadInstallationSource()
+            //{
+            //    DownloadUrl = @"https://www.python.org/ftp/python/3.7.3/python-3.7.3-embed-amd64.zip",
+            //};
 
             //Runtime.PythonDLL = "python37.dll";
             // set the download source
@@ -160,11 +169,11 @@ namespace Sudoku.Shared
             //
             // see what the installer is doing
 
-            //Runtime.PythonDLL = "python310.dll";
-            //Python.Deployment.Installer.Source = new Installer.DownloadInstallationSource()
-            //{
-            //	DownloadUrl = @"https://www.python.org/ftp/python/3.10.8/python-3.10.8-embed-amd64.zip",
-            //};
+            Runtime.PythonDLL = "python310.dll";
+            Python.Deployment.Installer.Source = new Installer.DownloadInstallationSource()
+            {
+            	DownloadUrl = @"https://www.python.org/ftp/python/3.10.8/python-3.10.8-embed-amd64.zip",
+            };
 
 
             //Runtime.PythonDLL = "python311.dll";
@@ -182,10 +191,60 @@ namespace Sudoku.Shared
 
 			await Installer.TryInstallPip();
 
+            //await InstallNumpy();
 			//Python.Deployment.Installer.SetupPython().Wait();
 			//Installer.TryInstallPip();
 
         }
+
+        // Méthode pour exécuter une commande Python
+        // private static void RunPythonCommand(string pythonExecutable, string arguments)
+        // {
+        //     var processStartInfo = new ProcessStartInfo
+        //     {
+        //         FileName = pythonExecutable,
+        //         Arguments = arguments,
+        //         RedirectStandardOutput = true,
+        //         RedirectStandardError = true,
+        //         UseShellExecute = false,
+        //         CreateNoWindow = true
+        //     };
+
+        //     using (var process = new Process { StartInfo = processStartInfo })
+        //     {
+        //         process.Start();
+
+        //         // Capture et affiche la sortie
+        //         string output = process.StandardOutput.ReadToEnd();
+        //         string error = process.StandardError.ReadToEnd();
+
+        //         process.WaitForExit();
+
+        //         if (!string.IsNullOrEmpty(output))
+        //         {
+        //             Console.WriteLine($"Output: {output}");
+        //         }
+
+        //         if (!string.IsNullOrEmpty(error))
+        //         {
+        //             Console.WriteLine($"Error: {error}");
+        //         }
+        //     }
+        // }
+
+        // public static async Task InstallNumpy()
+        // {
+        //     string pythonExecutable = Path.Combine(
+        //         Python.Deployment.Installer.InstallPath,
+        //         "python.exe"
+        //     );
+
+        //     // Assurez-vous que `pip` est installé
+        //     RunPythonCommand(pythonExecutable, "-m pip install numpy");
+
+        //     // Vérifiez si numpy est installé
+        //     RunPythonCommand(pythonExecutable, "-c \"import numpy; print(numpy.__version__)\"");
+        // }
 
 
         protected virtual void InitializePythonComponents()
@@ -226,13 +285,41 @@ namespace Sudoku.Shared
         /// Convertit un tableau NumPy en tableau .NET
         /// </summary>
 		public static int[,] AsManagedArray(PyModule scope, PyObject pyCells)
-		{
-			PyObject asNetArray = scope.Get("asNetArray");
-			PyObject netResult = asNetArray.Invoke(pyCells);
+        {
+            PyObject asNetArray = scope.Get("asNetArray");
+            PyObject netResult = asNetArray.Invoke(pyCells);
 
-			// Convertissez le PyObject résultant en tableau .NET
-			var managedResult = netResult.AsManagedObject(typeof(int[,])) as int[,];
-			return managedResult;
+            int[,] intArray;
+
+			try
+            {
+				intArray = netResult.AsManagedObject(typeof(int[,])) as int[,];
+            }
+            catch
+            {
+				// Convertissez le PyObject résultant en tableau .NET
+				var longArray = netResult.AsManagedObject(typeof(long[,])) as long[,];
+				if (longArray == null)
+				{
+					throw new InvalidCastException("Cannot convert the result to long[,].");
+				}
+
+				int rows = longArray.GetLength(0);
+				int cols = longArray.GetLength(1);
+				intArray = new int[rows, cols];
+
+				for (int i = 0; i < rows; i++)
+				{
+					for (int j = 0; j < cols; j++)
+					{
+						intArray[i, j] = (int)longArray[i, j];
+					}
+				}
+
+				
+			}
+            return intArray;
+
 		}
 
 
