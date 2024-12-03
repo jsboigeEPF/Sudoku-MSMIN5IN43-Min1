@@ -1,4 +1,5 @@
-﻿using Sudoku.Shared;
+﻿using Sudoku.HumanSolvers.Technique;
+using Sudoku.Shared;
 namespace Sudoku.HumanSolvers
 {
 public class HumanSolvers : ISudokuSolver
@@ -36,15 +37,17 @@ public class HumanSolvers : ISudokuSolver
 		private bool ApplyTechniques(SudokuGrid s)
 		{
 			// Try each technique in order of simplicity
-			if (ApplyNakedSingles(s)) return true;
-			if (ApplyHiddenSingles(s)) return true;
-			if (ApplyNakedPairs(s)) return true;
-			if (ApplyHiddenPairs(s)) return true;
-			if (ApplyPointingPairs(s)) return true;
-			if (ApplyBoxLineReduction(s)) return true;
-			if (ApplyLockedCandidates(s)) return true;
-			if (ApplyYWing(s)) return true;
-            if (ApplyXYZWing(s)) return true;
+           // if (HiddenRectangle.Apply(s)) return true;
+            if (HiddenSingle.Apply(s)) return true;
+			// if (ApplyNakedSingles(s)) return true;
+			// if (ApplyHiddenSingles(s)) return true;
+			// if (ApplyNakedPairs(s)) return true;
+			// if (ApplyHiddenPairs(s)) return true;
+			// if (ApplyPointingPairs(s)) return true;
+			// if (ApplyBoxLineReduction(s)) return true;
+			// if (ApplyLockedCandidates(s)) return true;
+			// if (ApplyYWing(s)) return true;
+   //          if (ApplyXYZWing(s)) return true;
 			
 			// Add more techniques here as needed (e.g., Naked Pairs, Hidden Pairs, etc.)
 
