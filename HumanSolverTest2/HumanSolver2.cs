@@ -6,22 +6,23 @@ namespace HumanSolverTest2;
 
 public class HumanSolver2 : ISudokuSolver
 {
-    
     private readonly List<SolvingTechnique> _techniques;
-    
+
     public HumanSolver2()
     {
         _techniques = new List<SolvingTechnique>
         {
             new SolvingTechnique { Name = "Naked Single", Apply = NakedSingle.Apply, Difficulty = 1 },
             new SolvingTechnique { Name = "Hidden Single", Apply = HiddenSingle.Apply, Difficulty = 2 },
-            new SolvingTechnique { Name = "Naked Pair", Apply = NakedPair.Apply, Difficulty = 3},
-            new SolvingTechnique { Name = "Hidden Pair", Apply = HiddenPair.Apply, Difficulty = 4},
-            new SolvingTechnique { Name = "Naked Triplet", Apply = NakedTriplet.Apply, Difficulty = 5},
-            new SolvingTechnique { Name = "Hidden Triplet", Apply = HiddenTriplet.Apply, Difficulty = 6},
-            new SolvingTechnique { Name = "Pointing Pairs", Apply = PointingPairs.Apply , Difficulty = 4}
+            new SolvingTechnique { Name = "Naked Pair", Apply = NakedPair.Apply, Difficulty = 3 },
+            new SolvingTechnique { Name = "Hidden Pair", Apply = HiddenPair.Apply, Difficulty = 4 },
+            new SolvingTechnique { Name = "Hidden Rectangle", Apply = HiddenRectangle.Apply, Difficulty = 4 },
+            new SolvingTechnique { Name = "Naked Triplet", Apply = NakedTriplet.Apply, Difficulty = 5 },
+            new SolvingTechnique { Name = "Hidden Triplet", Apply = HiddenTriplet.Apply, Difficulty = 6 },
+            new SolvingTechnique { Name = "Pointing Pairs", Apply = PointingPairs.Apply, Difficulty = 4 }
         };
     }
+
     public SudokuGrid Solve(SudokuGrid s)
     {
         bool progress;
@@ -32,9 +33,9 @@ public class HumanSolver2 : ISudokuSolver
             // If no techniques work but the puzzle isn't solved, it’s unsolvable with logic
             if (!progress && !IsSolved(s))
             {
-                throw new InvalidOperationException("This puzzle requires guessing or advanced techniques not supported by this solver.");
+                throw new InvalidOperationException(
+                    "This puzzle requires guessing or advanced techniques not supported by this solver.");
             }
-
         } while (!IsSolved(s));
 
         return s;
@@ -67,13 +68,14 @@ public class HumanSolver2 : ISudokuSolver
                     if (simpleTechnique.Apply(s))
                         return true;
                 }
+
                 return true;
             }
         }
 
         return false;
     }
-    
+
     private bool IsSolved(SudokuGrid s)
     {
         for (int row = 0; row < 9; row++)
@@ -83,9 +85,10 @@ public class HumanSolver2 : ISudokuSolver
                 if (s.Cells[row, col] == 0) return false; // Unsigned cell means it's unsolved
             }
         }
+
         return true;
     }
-    
+
     public static List<(int row, int col)> GetRowCells(int rowIndex)
     {
         var cells = new List<(int row, int col)>();
@@ -93,6 +96,7 @@ public class HumanSolver2 : ISudokuSolver
         {
             cells.Add((rowIndex, col));
         }
+
         return cells;
     }
 
@@ -103,6 +107,7 @@ public class HumanSolver2 : ISudokuSolver
         {
             cells.Add((row, colIndex));
         }
+
         return cells;
     }
 
@@ -119,7 +124,7 @@ public class HumanSolver2 : ISudokuSolver
                 cells.Add((row, col));
             }
         }
+
         return cells;
     }
-    
 }
