@@ -36,6 +36,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sudoku.Sujet5Solver", "Sudo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HumanSolverTest2", "HumanSolverTest2\HumanSolverTest2.csproj", "{66F68491-AF0F-42D9-AAED-EF9430D51803}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sudoku.NeuralNetsPy", "Sudoku.NeuralNetsPy\Sudoku.NeuralNetsPy.csproj", "{CEB60539-BA78-42F9-A3EB-E2637B276916}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -94,6 +96,10 @@ Global
 		{66F68491-AF0F-42D9-AAED-EF9430D51803}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{66F68491-AF0F-42D9-AAED-EF9430D51803}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{66F68491-AF0F-42D9-AAED-EF9430D51803}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CEB60539-BA78-42F9-A3EB-E2637B276916}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CEB60539-BA78-42F9-A3EB-E2637B276916}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CEB60539-BA78-42F9-A3EB-E2637B276916}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CEB60539-BA78-42F9-A3EB-E2637B276916}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
