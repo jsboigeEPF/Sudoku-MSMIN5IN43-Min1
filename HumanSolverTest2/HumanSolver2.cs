@@ -6,6 +6,22 @@ namespace HumanSolverTest2;
 
 public class HumanSolver2 : ISudokuSolver
 {
+    
+    private readonly List<SolvingTechnique> _techniques;
+    
+    public HumanSolver2()
+    {
+        _techniques = new List<SolvingTechnique>
+        {
+            new SolvingTechnique { Name = "Naked Single", Apply = NakedSingle.Apply, Difficulty = 1 },
+            new SolvingTechnique { Name = "Hidden Single", Apply = HiddenSingle.Apply, Difficulty = 2 },
+            new SolvingTechnique { Name = "Naked Pair", Apply = NakedPair.Apply, Difficulty = 3},
+            new SolvingTechnique { Name = "Hidden Pair", Apply = HiddenPair.Apply, Difficulty = 4},
+            new SolvingTechnique { Name = "Naked Triplet", Apply = NakedTriplet.Apply, Difficulty = 5},
+            new SolvingTechnique { Name = "Hidden Triplet", Apply = HiddenTriplet.Apply, Difficulty = 6},
+            new SolvingTechnique { Name = "Pointing Pairs", Apply = PointingPairs.Apply , Difficulty = 4}
+        };
+    }
     public SudokuGrid Solve(SudokuGrid s)
     {
         bool progress;
@@ -31,15 +47,31 @@ public class HumanSolver2 : ISudokuSolver
     /// <returns>True if progress was made, false otherwise.</returns>
     private bool ApplyTechniques(SudokuGrid s)
     {
-        if (NakedSingle.Apply(s)) return true;
-        if (HiddenSingle.Apply(s)) return true;
-        if (NakedPair.Apply(s)) return true;
-        //if (HiddenPair.Apply(s)) return true;
-        if (NakedTriplet.Apply(s)) return true;
-        if (HiddenTriplet.Apply(s)) return true;
-        if (PointingPairs.Apply(s)) return true;
+        // Toujours essayer d'abord les techniques simples
+        var simpleTechniques = _techniques.Where(t => t.Difficulty <= 2).ToList();
+        foreach (var technique in simpleTechniques)
+        {
+            if (technique.Apply(s))
+                return true;
+        }
 
-        return false; // No progress made
+        // Si aucune technique simple ne fonctionne, essayer les techniques plus complexes
+        var complexTechniques = _techniques.Where(t => t.Difficulty > 2).ToList();
+        foreach (var technique in complexTechniques)
+        {
+            if (technique.Apply(s))
+            {
+                // Après une technique complexe, réessayer les techniques simples
+                foreach (var simpleTechnique in simpleTechniques)
+                {
+                    if (simpleTechnique.Apply(s))
+                        return true;
+                }
+                return true;
+            }
+        }
+
+        return false;
     }
     
     private bool IsSolved(SudokuGrid s)

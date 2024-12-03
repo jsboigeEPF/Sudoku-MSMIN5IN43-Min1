@@ -14,7 +14,7 @@ public class NakedTriplet
             madeProgress |= CheckGroupForNakedTriplets(grid, HumanSolverTest2.HumanSolver2.GetColumnCells(i));
             madeProgress |= CheckGroupForNakedTriplets(grid, HumanSolverTest2.HumanSolver2.GetBoxCells(i));
         }
-
+        
         return madeProgress;
     }
 
