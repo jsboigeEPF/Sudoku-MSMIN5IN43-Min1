@@ -20,6 +20,7 @@
     <ProjectReference Include="..\Sudoku.GraphProba\Sudoku.GraphProba.csproj" />
     <ProjectReference Include="..\Sudoku.ORTools\Sudoku.ORTools.csproj" />
     <ProjectReference Include="..\Sudoku.Shared\Sudoku.Shared.csproj" />
+    <ProjectReference Include="..\Solver.PythonSolverAimaCSP\Solver.PythonSolverAimaCSP.csproj" />
     <ProjectReference Include="..\Sudoku.Backtracking\Sudoku.Backtracking.csproj" />
     <ProjectReference Include="..\Sudoku.Shared\Sudoku.Shared.csproj" />
 

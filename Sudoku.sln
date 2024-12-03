@@ -1,20 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.4.33205.214
+VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sudoku.Shared", "Sudoku.Shared\Sudoku.Shared.csproj", "{875F71B2-99ED-4366-9C28-E5FFB5B5AA41}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sudoku.Backtracking", "Sudoku.Backtracking\Sudoku.Backtracking.csproj", "{F7931A62-6D56-48F4-915F-80DA7A05E382}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sudoku.Benchmark", "Sudoku.Benchmark\Sudoku.Benchmark.csproj", "{3F6D87E5-3288-46C4-B192-F91D5FBB075B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sudoku.Benchmark", "Sudoku.Benchmark\Sudoku.Benchmark.csproj", "{7A71DAA1-231F-4122-A7F0-BBB3358F3701}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Puzzles", "Puzzles", "{5351C3A6-44B9-45CB-B4DB-4578796500FB}"
-	ProjectSection(SolutionItems) = preProject
-		Puzzles\Sudoku_Easy51.txt = Puzzles\Sudoku_Easy51.txt
-		Puzzles\Sudoku_hardest.txt = Puzzles\Sudoku_hardest.txt
-		Puzzles\Sudoku_top95.txt = Puzzles\Sudoku_top95.txt
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Solver.PythonSolverAimaCSP", "Solver.PythonSolverAimaCSP\Solver.PythonSolverAimaCSP.csproj", "{20000AD1-C578-4DE9-A847-1D17D43370AF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Sudoku.Backtracking", "Sudoku.Backtracking\Sudoku.Backtracking.csproj", "{1C50AE77-2CE9-4BD8-ADFE-3C3A255FFC78}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sudoku.Shared", "Sudoku.Shared\Sudoku.Shared.csproj", "{FA1F5A1A-B3F0-4107-A42D-17D0F9359E27}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProjectTestSolver", "ProjectTestSolver\ProjectTestSolver.csproj", "{ABB783F0-4699-4E97-91E5-BD121FC881D1}"
 EndProject
@@ -43,6 +38,7 @@ Global
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
+
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{875F71B2-99ED-4366-9C28-E5FFB5B5AA41}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{875F71B2-99ED-4366-9C28-E5FFB5B5AA41}.Debug|Any CPU.Build.0 = Debug|Any CPU
@@ -104,7 +100,22 @@ Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {BEE8F8D1-8D10-45DA-ABF1-5DE630CBE60B}
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F7931A62-6D56-48F4-915F-80DA7A05E382}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F7931A62-6D56-48F4-915F-80DA7A05E382}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F7931A62-6D56-48F4-915F-80DA7A05E382}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F7931A62-6D56-48F4-915F-80DA7A05E382}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7A71DAA1-231F-4122-A7F0-BBB3358F3701}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A71DAA1-231F-4122-A7F0-BBB3358F3701}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A71DAA1-231F-4122-A7F0-BBB3358F3701}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A71DAA1-231F-4122-A7F0-BBB3358F3701}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20000AD1-C578-4DE9-A847-1D17D43370AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20000AD1-C578-4DE9-A847-1D17D43370AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20000AD1-C578-4DE9-A847-1D17D43370AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20000AD1-C578-4DE9-A847-1D17D43370AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA1F5A1A-B3F0-4107-A42D-17D0F9359E27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA1F5A1A-B3F0-4107-A42D-17D0F9359E27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA1F5A1A-B3F0-4107-A42D-17D0F9359E27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA1F5A1A-B3F0-4107-A42D-17D0F9359E27}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
