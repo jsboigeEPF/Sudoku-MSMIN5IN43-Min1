@@ -25,8 +25,8 @@ namespace Sudoku.Benchmark
 
     public class QuickBenchmarkSolversHard : QuickBenchmarkSolversEasy
     {
-        public QuickBenchmarkSolversHard()
-        {
+        public QuickBenchmarkSolversHard() : base()
+		{
             NbPuzzles = 10;
             MaxSolverDuration = TimeSpan.FromSeconds(30);
 			Difficulty = SudokuDifficulty.Hard;
@@ -36,8 +36,8 @@ namespace Sudoku.Benchmark
 
     public class QuickBenchmarkSolversMedium : QuickBenchmarkSolversEasy
     {
-        public QuickBenchmarkSolversMedium()
-        {
+        public QuickBenchmarkSolversMedium() : base()
+		{
             NbPuzzles = 10;
             MaxSolverDuration = TimeSpan.FromSeconds(20);
 			Difficulty = SudokuDifficulty.Medium;
@@ -48,8 +48,8 @@ namespace Sudoku.Benchmark
     [Config(typeof(Config))]
     public class QuickBenchmarkSolversEasy : BenchmarkSolversBase
     {
-        public QuickBenchmarkSolversEasy()
-        {
+        public QuickBenchmarkSolversEasy() : base()
+		{
             MaxSolverDuration = TimeSpan.FromSeconds(10);
             NbPuzzles = 2;
         }
@@ -73,7 +73,7 @@ namespace Sudoku.Benchmark
     public class CompleteBenchmarkSolvers : BenchmarkSolversBase
     {
 
-        public CompleteBenchmarkSolvers()
+        public CompleteBenchmarkSolvers(): base()
         {
             MaxSolverDuration = TimeSpan.FromMinutes(1);
         }
@@ -107,7 +107,7 @@ namespace Sudoku.Benchmark
 				this.AddColumn(new RankColumn(NumeralSystem.Arabic));
 			
 			this.AddLogger(ConsoleLogger.Default);
-			this.AddExporter(new CsvExporter(CsvSeparator.Comma, SummaryStyle.Default));
+			//this.AddExporter(new CsvExporter(CsvSeparator.Comma, SummaryStyle.Default));
 			this.UnionRule = ConfigUnionRule.AlwaysUseLocal;
 
 		}
@@ -117,18 +117,24 @@ namespace Sudoku.Benchmark
 			var baseJob = Job.Dry
                     .WithId("Solving Sudokus")
                     .WithPlatform(Platform.X64)
-                    .WithJit(Jit.Default)
-                    .WithRuntime(CoreRuntime.Core80)
+					//.WithJit(Jit.Default)
+					.WithJit(Jit.RyuJit)
+					.WithRuntime(CoreRuntime.Core80)
                     .WithLaunchCount(1)
                     .WithWarmupCount(1)
                     .WithIterationCount(3)
                     .WithInvocationCount(3)
+                    
 				.WithUnrollFactor(1);
-			//if (Program.IsDebug)
-			//{
-			//	baseJob = baseJob.WithCustomBuildConfiguration("Debug");
+			//         if (Program.IsDebug)
+			//         {
+			//             baseJob = baseJob.WithCustomBuildConfiguration("Debug");
+			//             baseJob = baseJob.WithToolchain(InProcessEmitToolchain.Instance);
 			//}
 
+			//baseJob = baseJob.WithCustomBuildConfiguration("Debug");
+			//baseJob = baseJob.WithToolchain(InProcessEmitToolchain.Instance);
+			baseJob = baseJob.WithToolchain(InProcessNoEmitToolchain.Instance);
 			return baseJob;
 		}
     }
