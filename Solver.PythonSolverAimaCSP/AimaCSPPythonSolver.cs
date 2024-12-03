@@ -13,13 +13,12 @@ namespace Solver.PythonSolverAimaCSP
                 // Ajoutez le script de conversion entre .NET et NumPy
                 AddNumpyConverterScript(scope);
 
-                // Convertissez la grille Sudoku .NET en tableau NumPy
                 var pyCells = AsNumpyArray(s.Cells, scope);
 
-                // Injectez la grille Sudoku initiale dans le scope Python
+                // Injecte la grille Sudoku initiale dans le scope Python
                 scope.Set("instance", pyCells);
 
-                // Script Python inspiré de votre solution CSP
+                
                 string pythonCode = @"
 import numpy as np
 from collections import defaultdict
