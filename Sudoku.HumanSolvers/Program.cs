@@ -1,5 +1,4 @@
-﻿using Sudoku.HumanSolvers.Technique;
-using Sudoku.Shared;
+﻿using Sudoku.Shared;
 namespace Sudoku.HumanSolvers
 {
 public class HumanSolvers : ISudokuSolver
@@ -38,7 +37,7 @@ public class HumanSolvers : ISudokuSolver
 		{
 			// Try each technique in order of simplicity
            // if (HiddenRectangle.Apply(s)) return true;
-            if (HiddenSingle.Apply(s)) return true;
+            if (ApplyHiddenSingles(s)) return true;
 			// if (ApplyNakedSingles(s)) return true;
 			// if (ApplyHiddenSingles(s)) return true;
 			// if (ApplyNakedPairs(s)) return true;
